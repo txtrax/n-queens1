@@ -62,14 +62,14 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
     \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
     |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
+    */
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -79,27 +79,86 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // Check for more than one 1 in given array
+      // Need to get array
+      var result = false;
+      var row = this.rows()[rowIndex];
+      row.forEach(function(square, index) {
+        // Check to see if there is more than one 1 -> false
+        // if a second index of '1' exists -> true
+        // if there is a 1 on the row
+        if (square === 1) {
+          // compare its index to the first occurance of 1
+          if (row.indexOf(1) !== index) {
+            result = true;
+            return;
+          }
+        }
+      });
+      return result;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      // if 'this' has no conflict at any rows
+      var result = false;
+      var rows = this.rows();
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return result;
     },
-
-
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      //create transpose board
+      var columns = [];
+      var rows = this.rows();
+      //make transpose board
+      for (var i = 0; i < rows.length; i++) {
+        // push new empty column to columns
+        columns.push([]);
+      }
+      for (var i = 0; i < rows.length; i++) {
+        for (var j = 0; j < rows[i].length; j++) {
+          columns[j].push(rows[i][j]);
+        }
+      }
+
+      // var reduce = columns[colIndex].reduce(function(element, index) {
+      //   if (index !== columns[colIndex].indexOf(element)) {
+      //     return true;
+      //   }
+      // }, false);
+      // console.log(reduce);
+
+      var sum = 0;
+      for (var e = 0; e < columns[colIndex].length; e++) {
+        sum += columns[colIndex][e];
+        if (sum > 1) {
+          return true;
+        }
+      }
+      return false;
     },
+
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      //get every array of columns indices
+      var columnIndex = this.get('n') - 1;
+      for (var i = 0; i <= columnIndex; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
@@ -109,6 +168,15 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      //  x  x  x
+      // [1, 0, 0]
+      // [0, 1, 0]
+      // [0, 0, 1]
+      // M[0][0], M[1][1], M[2][2]
+      // M[r][c], M[r + 1][c + 1], M[r + 2][...] *
+      // M[x][x] -> this would only check the center diagonal
+
+
       return false; // fixme
     },
 
@@ -124,6 +192,11 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      //  x  x  x
+      // [0, 0, 1]
+      // [0, 1, 0]
+      // [1, 0, 0]
+      //
       return false; // fixme
     },
 
@@ -146,3 +219,5 @@
   };
 
 }());
+
+window.toyBoard = new Board({n: 3});
