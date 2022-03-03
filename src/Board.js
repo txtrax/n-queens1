@@ -168,16 +168,32 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      //  x  x  x
+      //  x = 0
       // [1, 0, 0]
-      // [0, 1, 0]
+      // [0, 1, 0] <-
       // [0, 0, 1]
       // M[0][0], M[1][1], M[2][2]
       // M[r][c], M[r + 1][c + 1], M[r + 2][...] *
       // M[x][x] -> this would only check the center diagonal
+      var n = this.get('n');
+      var board = this.rows();
 
+      for (var i = 0; i < n; i++) {
+        var startingCol = majorDiagonalColumnIndexAtFirstRow - i;
+        var sum = 0;
 
-      return false; // fixme
+        for (var r = 0; r < n; r++) {
+          let col = startingCol + r;
+          if(this._isInBounds(r, col)) {
+            //console.log(board[r][col]);
+            sum += 1;
+            if (sum > 1) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
@@ -220,4 +236,4 @@
 
 }());
 
-window.toyBoard = new Board({n: 3});
+// window.toyBoard = new Board({n: 3});
