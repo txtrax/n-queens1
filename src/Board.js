@@ -177,20 +177,14 @@
       // M[x][x] -> this would only check the center diagonal
       var n = this.get('n');
       var board = this.rows();
-
-      for (var i = 0; i < n; i++) {
-        var startingCol = majorDiagonalColumnIndexAtFirstRow - i;
-        var sum = 0;
-
-        for (var r = 0; r < n; r++) {
-          let col = startingCol + r;
-          if(this._isInBounds(r, col)) {
-            //console.log(board[r][col]);
-            sum += 1;
-            if (sum > 1) {
-              return true;
-            }
-          }
+      var sum = 0;
+      for (var row = 0; row < n; row++) {
+        var col = majorDiagonalColumnIndexAtFirstRow + row;
+        if (this._isInBounds(row, col)) {
+          sum += board[row][col];
+        }
+        if (sum > 1) {
+          return true;
         }
       }
       return false;
@@ -198,8 +192,17 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var n = this.get('n');
+      for (var i = 0; i < n; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      //return false
+      return false;
     },
+
+
 
 
 
@@ -213,12 +216,30 @@
       // [0, 1, 0]
       // [1, 0, 0]
       //
-      return false; // fixme
+      var n = this.get('n');
+      var board = this.rows();
+      var sum = 0;
+      for (var row = 0; row < n; row++) {
+        var col = minorDiagonalColumnIndexAtFirstRow - row;
+        if (this._isInBounds(row, col)) {
+          sum += board[row][col];
+        }
+        if (sum > 1) {
+          return true;
+        }
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var n = this.get('n');
+      for (var i = 0; i < n; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
@@ -234,6 +255,9 @@
     });
   };
 
+
 }());
+
+
 
 // window.toyBoard = new Board({n: 3});
