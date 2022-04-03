@@ -61,7 +61,6 @@
       );
     },
 
-
     /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
@@ -76,7 +75,6 @@
 
     // ROWS - run from left to right
     // --------------------------------------------------------------
-    //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
       // Check for more than one 1 in given array
@@ -96,6 +94,12 @@
         }
       });
       return result;
+      // var row = this.get(rowIndex);
+      // var count = 0;
+      // for ( var i = 0; i < row.length; i++ ) {
+      //   count += row[i];
+      // }
+      // return count > 1;
     },
 
     // test if any rows on this board contain conflicts
@@ -109,11 +113,17 @@
         }
       }
       return result;
+      // var size = this.get('n');
+      // for ( var i = 0; i < size; i++ ) {
+      //   if ( this.hasRowConflictAt(i) ) {
+      //     return true;
+      //   }
+      // }
+      // return false;
     },
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
-    //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       //create transpose board
@@ -129,14 +139,6 @@
           columns[j].push(rows[i][j]);
         }
       }
-
-      // var reduce = columns[colIndex].reduce(function(element, index) {
-      //   if (index !== columns[colIndex].indexOf(element)) {
-      //     return true;
-      //   }
-      // }, false);
-      // console.log(reduce);
-
       var sum = 0;
       for (var e = 0; e < columns[colIndex].length; e++) {
         sum += columns[colIndex][e];
@@ -145,8 +147,14 @@
         }
       }
       return false;
+      // var size = this.get('n');
+      // var count = 0;
+      // for ( var i = 0; i < size; i++ ) {
+      //   var row = this.get(i);
+      //   count += row[colIndex];
+      // }
+      // return count > 1;
     },
-
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
@@ -157,11 +165,15 @@
           return true;
         }
       }
-
       return false;
+      // var size = this.get('n');
+      // for ( var i = 0; i < size; i++ ) {
+      //   if ( this.hasColConflictAt(i) ) {
+      //     return true;
+      //   }
+      // }
+      // return false;
     },
-
-
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
@@ -188,6 +200,17 @@
         }
       }
       return false;
+      // var size = this.get('n');
+      // var count = 0;
+      // var rowIdx = 0;
+      // var colIdx = majorDiagonalColumnIndexAtFirstRow;
+      // for ( ; rowIdx < size && colIdx < size; rowIdx++, colIdx++ ) {
+      //   if ( colIdx >= 0 ) {
+      //     var row = this.get(rowIdx);
+      //     count += row[colIdx];
+      //   }
+      // }
+      // return count > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
@@ -198,13 +221,15 @@
           return true;
         }
       }
-      //return false
       return false;
+      // var size = this.get('n');
+      // for ( var i = 1 - size; i < size; i++ ) {
+      //   if ( this.hasMajorDiagonalConflictAt(i) ) {
+      //     return true;
+      //   }
+      // }
+      // return false;
     },
-
-
-
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
@@ -215,7 +240,6 @@
       // [0, 0, 1]
       // [0, 1, 0]
       // [1, 0, 0]
-      //
       var n = this.get('n');
       var board = this.rows();
       var sum = 0;
@@ -229,6 +253,17 @@
         }
       }
       return false;
+      // var size = this.get('n');
+      // var count = 0;
+      // var rowIdx = 0;
+      // var colIdx = minorDiagonalColumnIndexAtFirstRow;
+      // for ( ; rowIdx < size && colIdx >= 0; rowIdx++, colIdx-- ) {
+      //   if ( colIdx < size ) {
+      //     var row = this.get(rowIdx);
+      //     count += row[colIdx];
+      //   }
+      // }
+      // return count > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
@@ -240,11 +275,15 @@
         }
       }
       return false;
+      // var size = this.get('n');
+      // for ( var i = (size * 2) - 1; i >= 0; i-- ) {
+      //   if ( this.hasMinorDiagonalConflictAt(i) ) {
+      //     return true;
+      //   }
+      // }
+      // return false;
     }
-
     /*--------------------  End of Helper Functions  ---------------------*/
-
-
   });
 
   var makeEmptyMatrix = function(n) {
@@ -254,10 +293,6 @@
       });
     });
   };
-
-
 }());
-
-
 
 // window.toyBoard = new Board({n: 3});
